@@ -238,16 +238,15 @@ const SignUp = () => {
                 <input name="height" type="number" placeholder="Height (cm)" className="w-full p-2 rounded-md mb-3 bg-gray-700 text-white" onChange={handleChange} />
                 {errors.height && <p className="text-red-500 text-sm">{errors.height}</p>}
                 <select name="goal" className="w-full p-2 rounded-md mb-3 bg-gray-700 text-white" onChange={handleChange}>
-                <option value="">Select Fitness Goal</option>
-                <option value="general_fitness">Maintain Overall Well-being</option>
-                <option value="weight_gain">Gain Weight</option>
-                <option value="fat_loss">Lose Weight</option>
-                <option value="muscle_building">Increase Muscle Mass</option>
-                <option value="endurance_training">Improve Stamina</option>
-                <option value="strength_training">Focus on Strength/Powerlifting</option>
-                <option value="rehabilitation">Injury Recovery</option>
-                <option value="balanced_lifestyle">Balanced Lifestyle</option>
-
+                  <option value="">Select Fitness Goal</option>
+                  <option value="general_fitness">Maintain Overall Well-being</option>
+                  <option value="weight_gain">Gain Weight</option>
+                  <option value="fat_loss">Lose Weight</option>
+                  <option value="muscle_building">Increase Muscle Mass</option>
+                  <option value="endurance_training">Improve Stamina</option>
+                  <option value="strength_training">Focus on Strength/Powerlifting</option>
+                  <option value="rehabilitation">Injury Recovery</option>
+                  <option value="balanced_lifestyle">Balanced Lifestyle</option>
                 </select>
                 {errors.goal && <p className="text-red-500 text-sm">{errors.goal}</p>}
                 <select name="dietaryPreferences" className="w-full p-2 rounded-md mb-3 bg-gray-700 text-white" onChange={handleChange}>
@@ -259,11 +258,12 @@ const SignUp = () => {
                 </select>
                 {errors.dietaryPreferences && <p className="text-red-500 text-sm">{errors.dietaryPreferences}</p>}
                 <select name="activityLevel" className="w-full p-2 rounded-md mb-3 bg-gray-700 text-white" onChange={handleChange} >
-                  <option value="">Select Activity Level</option>
-                  <option value="SEDENTARY">Sedentary - Little to no exercise, mostly sitting</option>
-                  <option value="lightly_active">Lightly Active - Light exercise or activity 1-3 times per week</option>
-                  <option value="moderately_active">Moderately Active - Moderate exercise 3-5 times per week</option>
-                  <option value="very_active">Very Active - Intense exercise 6-7 times per week or a physically demanding job</option>
+                <option value="">Select Activity Level</option>
+                  <option value="SEDENTARY">Sedentary - Little to no exercise</option>
+                  <option value="LIGHT">Lightly Active - Light exercise 1-3×/week</option>
+                  <option value="MODERATE">Moderately Active - Exercise 3-5×/week</option>
+                  <option value="ACTIVE">Active - Intense exercise 5-6×/week</option>
+                  <option value="VERY_ACTIVE">Very Active - Daily intense exercise</option>
                 </select>
                 {errors.activityLevel && <p className="text-red-500 text-sm">{errors.activityLevel}</p>}
                 <input name="medicalConditions" placeholder="Medical Conditions (if any)" className="w-full p-2 rounded-md mb-3 bg-gray-700 text-white" onChange={handleChange} />
