@@ -41,7 +41,7 @@ export default function MultiStepRegistration() {
     console.log("Final Submission:", finalData);
     
     // Replace with your API request
-    fetch("https://your-backend-url/api/auth/register", {
+    fetch("http://localhost:8080/api/auth/register", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(finalData),

@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { motion } from "framer-motion";
 import splash1 from "../assets/splash1.png";
 import splash2 from "../assets/splash2.png";
 import splash3 from "../assets/splash3.png";
@@ -7,7 +6,7 @@ import splash4 from "../assets/splash4.png";
 
 const images = [splash1, splash2, splash3, splash4];
 
-export default function SplashScreen({ onComplete }) {
+export default function SplashScreen() {
   const [index, setIndex] = useState(0);
 
   useEffect(() => {
