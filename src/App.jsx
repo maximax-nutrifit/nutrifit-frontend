@@ -19,7 +19,7 @@ import WorkoutDetailPage from "./components/workout";
 
 function Layout() {
   const location = useLocation();
-  const noNavbarRoutes = ["/d", "/login", "/signup"];
+  const noNavbarRoutes = ["/", "/login", "/signup"];
 
   return (
     <>
@@ -29,9 +29,9 @@ function Layout() {
       <AnimatePresence mode="wait">
         <Routes location={location} key={location.pathname}>
           <Route path="/" element={<Onboarding />} />
-          <Route path="/" element={<Login />} />
+          <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<SignUp />} />
-          <Route path="/" element={<Dashboard />} />
+          <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/reminder" element={<ReminderPage />} />
           <Route path="/workout" element={<WorkoutPage />} />
           <Route path="/meal-planning" element={<MealPlanning />} />
