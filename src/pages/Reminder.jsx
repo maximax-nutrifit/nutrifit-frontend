@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
-import { FaBell, FaHome, FaUtensils, FaClipboardList, FaChartLine, FaUser } from "react-icons/fa";
 
 const remindersData = [
   { title: "Meal Logging", category: "Jollof Rice", time: "10:30 AM", img: "/assets/jollof-rice.png" },
@@ -12,13 +11,34 @@ const ReminderPage = () => {
   const [showDelete, setShowDelete] = useState(false);
   const [reminders, setReminders] = useState(remindersData);
 
+  // State for new reminder inputs
+  const [reminderType, setReminderType] = useState("Meal Logging");
+  const [category, setCategory] = useState("Jollof Rice");
+  const [time, setTime] = useState("");
+
+  // Function to handle new reminder creation
+  const handleSaveReminder = () => {
+    if (!time) return; // Prevent saving empty reminders
+
+    const newReminder = {
+      title: reminderType,
+      category,
+      time,
+      img: reminderType === "Meal Logging" ? "/assets/jollof-rice.png" : "/assets/bicep-curl.png",
+    };
+
+    setReminders([...reminders, newReminder]); // Add new reminder
+    setShowModal(false); // Close modal
+    setTime(""); // Reset input field
+  };
+
   const handleDelete = (index) => {
     setReminders(reminders.filter((_, i) => i !== index));
     setShowDelete(false);
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-900 to-gray-800 text-white p-4 relative">
+    <div className="min-h-screen mb-18 bg-gradient-to-b from-gray-900 to-gray-800 text-white p-4 relative">
       {/* Create Reminder Button */}
       <motion.button
         whileTap={{ scale: 0.95 }}
@@ -58,24 +78,37 @@ const ReminderPage = () => {
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
           exit={{ opacity: 0, scale: 0.8 }}
-          className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center"
+          className="fixed inset-0 backdrop-blur-sm bg-opacity-50 flex items-center justify-center"
         >
           <div className="bg-white p-6 rounded-lg text-black w-80">
             <h2 className="text-lg font-semibold">Create Reminder</h2>
             <div className="mt-4 space-y-3">
-              <select className="w-full p-2 border rounded-md">
+              <select
+                className="w-full p-2 border rounded-md"
+                value={reminderType}
+                onChange={(e) => setReminderType(e.target.value)}
+              >
                 <option>Meal Logging</option>
                 <option>Workout</option>
               </select>
-              <select className="w-full p-2 border rounded-md">
+              <select
+                className="w-full p-2 border rounded-md"
+                value={category}
+                onChange={(e) => setCategory(e.target.value)}
+              >
                 <option>Jollof Rice</option>
                 <option>Bicep Curl</option>
               </select>
-              <input type="time" className="w-full p-2 border rounded-md" />
+              <input
+                type="time"
+                className="w-full p-2 border rounded-md"
+                value={time}
+                onChange={(e) => setTime(e.target.value)}
+              />
             </div>
             <div className="flex justify-between mt-4">
               <button className="bg-gray-300 px-4 py-2 rounded-md" onClick={() => setShowModal(false)}>Cancel</button>
-              <button className="bg-orange-500 px-4 py-2 rounded-md text-white">Save</button>
+              <button className="bg-orange-500 px-4 py-2 rounded-md text-white" onClick={handleSaveReminder}>Save</button>
             </div>
           </div>
         </motion.div>
@@ -87,7 +120,7 @@ const ReminderPage = () => {
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
           exit={{ opacity: 0, scale: 0.8 }}
-          className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center"
+          className="fixed inset-0 backdrop-blur-sm bg-opacity-50 flex items-center justify-center"
         >
           <div className="bg-white p-6 rounded-lg text-black w-80 text-center">
             <h2 className="text-lg font-semibold">This Reminder Will Be Deleted</h2>
@@ -98,18 +131,8 @@ const ReminderPage = () => {
           </div>
         </motion.div>
       )}
-
-      {/* Bottom Navigation */}
-      <div className="fixed bottom-0 left-0 right-0 bg-gray-900 p-4 flex justify-around text-gray-400">
-        {[FaHome, FaUtensils, FaClipboardList, FaChartLine, FaUser].map((Icon, idx) => (
-          <motion.div whileTap={{ scale: 0.8 }} key={idx}>
-            <Icon className="text-2xl" />
-          </motion.div>
-        ))}
-      </div>
     </div>
   );
 };
 
 export default ReminderPage;
-    

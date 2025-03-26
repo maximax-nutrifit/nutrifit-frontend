@@ -10,21 +10,30 @@ function Navbar() {
       transition={{ type: "spring", stiffness: 120 }}
       className="fixed bottom-0 w-full bg-gray-800 text-white flex justify-around py-3 shadow-lg"
     >
-      <NavLink to="/dashboard" className="nav-item">
-        <FaHome className="text-2xl transition-transform duration-300 hover:scale-110" />
-      </NavLink>
-      <NavLink to="/meal-planning" className="nav-item">
-        <FaUtensils className="text-2xl transition-transform duration-300 hover:scale-110" />
-      </NavLink>
-      <NavLink to="/reminder" className="nav-item">
-        <FaClipboardList className="text-2xl transition-transform duration-300 hover:scale-110" />
-      </NavLink>
-      <NavLink to="/workout" className="nav-item">
-        <FaChartLine className="text-2xl transition-transform duration-300 hover:scale-110" />
-      </NavLink>
-      <NavLink to="/settings" className="nav-item">
-        <FaUser className="text-2xl transition-transform duration-300 hover:scale-110" />
-      </NavLink>
+      {[
+        { to: "/dashboard", icon: <FaHome /> },
+        { to: "/meal-planning", icon: <FaUtensils /> },
+        { to: "/workout", icon: <FaChartLine /> },
+        { to: "/reminder", icon: <FaClipboardList /> },
+        { to: "/settings", icon: <FaUser /> },
+      ].map((item, index) => (
+        <NavLink
+          key={index}
+          to={item.to}
+          className={({ isActive }) =>
+            `nav-item flex items-center justify-center w-12 h-12 rounded-full transition-all 
+            ${isActive ? "bg-purple-500" : "bg-gray-700"}`
+          }
+        >
+          <motion.div
+            whileHover={{ scale: 1.2, opacity: 0.9 }}
+            transition={{ duration: 0.3 }}
+            className="text-2xl"
+          >
+            {item.icon}
+          </motion.div>
+        </NavLink>
+      ))}
     </motion.nav>
   );
 }

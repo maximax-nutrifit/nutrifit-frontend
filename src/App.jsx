@@ -1,4 +1,9 @@
-import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  useLocation,
+} from "react-router-dom";
 import { AnimatePresence } from "framer-motion";
 import Onboarding from "./pages/Onboarding";
 import Login from "./pages/Login";
@@ -10,6 +15,7 @@ import WorkoutPage from "./pages/Workout";
 import MealPlanning from "./pages/MealPlanning";
 import Navbar from "./components/Navbar";
 import Header from "./pages/Header";
+import WorkoutDetailPage from "./components/workout";
 
 function Layout() {
   const location = useLocation();
@@ -30,6 +36,7 @@ function Layout() {
           <Route path="/workout" element={<WorkoutPage />} />
           <Route path="/meal-planning" element={<MealPlanning />} />
           <Route path="/settings" element={<Settings />} />
+          <Route path="/workout/:id" element={<WorkoutDetailPage />} />
         </Routes>
       </AnimatePresence>
 

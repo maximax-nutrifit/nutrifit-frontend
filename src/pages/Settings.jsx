@@ -5,7 +5,7 @@ import { IoIosArrowForward } from "react-icons/io";
 
 const ProfileSettings = () => {
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-900 to-gray-800 text-white p-6">
+    <div className="min-h-screen mb-18 bg-gradient-to-b from-gray-900 to-gray-800 text-white p-6">
       {/* Profile Section */}
       <motion.div
         initial={{ opacity: 0, y: -20 }}
