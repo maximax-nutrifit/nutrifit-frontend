@@ -5,12 +5,12 @@
     "scope": "./",
     "icons": [
       {
-        "src": "nutrifit.png",
+        "src": "nutrifit192x192.png",
         "sizes": "192x192",
         "type": "image/png"
       },
       {
-        "src": "nutrifit.png",
+        "src": "nutrifit512x512.png",
         "sizes": "512x512",
         "type": "image/png"
       }

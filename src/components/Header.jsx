@@ -2,8 +2,6 @@ import { FaBell } from "react-icons/fa";
 
 function Header() {
   const userData = JSON.parse(localStorage.getItem("userResponseDTO"));
-  console.log(localStorage.getItem("accessToken"))
-  console.log(userData);
   const userName = userData.name;
   return (
     <div className="flex items-center justify-between bg-gray-900 text-white w-full p-4 max-w-screen mx-auto">
