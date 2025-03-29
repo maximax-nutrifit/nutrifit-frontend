@@ -8,6 +8,7 @@ const Login = () => {
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
   const [activeTab, setActiveTab] = useState("login");
+  const [errorMessage, setErrorMessage] = useState("");
 
   const togglePasswordVisibility = () => {
     setShowPassword((prev) => !prev);
@@ -24,7 +25,9 @@ const Login = () => {
   };
 
   const onLogin = async (e) => {
-    e.preventDefault(); // Prevent default refresh behavior
+    e.preventDefault();
+    setErrorMessage("");
+    
     const username = e.target.username.value;
     const password = e.target.password.value;
     const loginData = { username, password };
@@ -38,13 +41,13 @@ const Login = () => {
         localStorage.setItem("userResponseDTO", JSON.stringify(userResponseDTO));
         setTimeout(() => navigate("/"), 2000);
       } else {
-        console.log("Login failed. Please check your credentials.");
+        setErrorMessage("Invalid username or password. Please try again.");
       }
     } catch (error) {
-      console.log("Login failed. Please try again.");
+      setErrorMessage("Login failed. Please try again.");
       console.error("Error:", error);
     }
-  };  
+  };
 
   return (
     <div className="flex justify-center items-center min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-white">
@@ -57,7 +60,6 @@ const Login = () => {
         <h2 className="text-3xl font-bold text-center mb-2 text-purple-400">Welcome Back</h2>
         <p className="text-center text-gray-400">Login to access your account</p>
 
-        {/* Tab Switching with Sliding Background */}
         <div className="relative flex mt-5 space-x-2 bg-gray-700 p-1 rounded-full">
           <motion.div
             className="absolute top-0 left-0 h-full bg-purple-500 rounded-full"
@@ -86,6 +88,16 @@ const Login = () => {
             Sign Up
           </button>
         </div>
+
+        {errorMessage && (
+          <motion.p
+            className="text-red-500 text-center mt-4"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+          >
+            {errorMessage}
+          </motion.p>
+        )}
 
         <motion.form className="mt-6 space-y-4" onSubmit={onLogin} variants={itemVariants}>
           <motion.div variants={itemVariants}>
@@ -125,35 +137,7 @@ const Login = () => {
           >
             Login
           </motion.button>
-
-          <div className="flex justify-between text-sm text-gray-400 mt-2">
-            <a href="/forgot-password" className="hover:text-purple-400">
-              Forgot password?
-            </a>
-            <a href="/signup" className="hover:text-purple-400">
-              Sign up now!
-            </a>
-          </div>
         </motion.form>
-
-        <div className="mt-6 text-center">
-          <p className="text-gray-400">or sign in with</p>
-          <div className="flex justify-center gap-4 mt-3">
-            <button className="flex items-center gap-2 bg-gray-700 px-4 py-2 rounded-lg hover:bg-gray-600 transition">
-              <FaGoogle className="text-red-500" /> Google
-            </button>
-            <button className="flex items-center gap-2 bg-gray-700 px-4 py-2 rounded-lg hover:bg-gray-600 transition">
-              <FaApple className="text-white" /> Apple
-            </button>
-          </div>
-        </div>
-
-        <p className="text-center text-gray-400 mt-5">
-          Don’t have an Account?{" "}
-          <span onClick={() => navigate("/signup")} className="text-purple-400 hover:underline cursor-pointer">
-            Sign up here
-          </span>
-        </p>
       </motion.div>
     </div>
   );
