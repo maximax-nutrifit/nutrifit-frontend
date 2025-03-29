@@ -1,3 +1,4 @@
+import { Outlet } from "react-router-dom";
 import {
   BrowserRouter as Router,
   Routes,
@@ -14,34 +15,46 @@ import ReminderPage from "./pages/Reminder";
 import WorkoutPage from "./pages/Workout";
 import MealPlanning from "./pages/MealPlanning";
 import Navbar from "./components/Navbar";
-import Header from "./pages/Header";
+import Header from "./components/Header";
 import WorkoutDetailPage from "./components/workout";
+import ProtectedRoute from "./components/ProtectedRoute";
+
+// New component for authenticated layout
+const AuthenticatedLayout = () => {
+  return (
+    <>
+      <Header />
+      <AnimatePresence mode="wait">
+        <Outlet /> {/* This renders the child routes */}
+      </AnimatePresence>
+      <Navbar />
+    </>
+  );
+};
 
 function Layout() {
   const location = useLocation();
-  const noNavbarRoutes = ["/dashboard", "/login", "/signup"];
 
   return (
     <>
-      {/* Show Header unless on restricted pages */}
-      {!noNavbarRoutes.includes(location.pathname) && <Header />}
-
-      <AnimatePresence mode="wait">
-        <Routes location={location} key={location.pathname}>
-          <Route path="/dashboard" element={<Onboarding />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/signup" element={<SignUp />} />
-          <Route path="/" element={<Dashboard />} />
-          <Route path="/reminder" element={<ReminderPage />} />
-          <Route path="/workout" element={<WorkoutPage />} />
-          <Route path="/meal-planning" element={<MealPlanning />} />
-          <Route path="/settings" element={<Settings />} />
-          <Route path="/workout/:id" element={<WorkoutDetailPage />} />
-        </Routes>
-      </AnimatePresence>
-
-      {/* Show Navbar unless on restricted pages */}
-      {!noNavbarRoutes.includes(location.pathname) && <Navbar />}
+      {/* Routes without auth check */}
+      <Routes location={location} key={location.pathname}>
+        <Route path="/" element={<Onboarding />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<SignUp />} />
+        
+        {/* All protected routes wrapped in AuthenticatedLayout */}
+        <Route element={<ProtectedRoute />}>
+          <Route element={<AuthenticatedLayout />}>
+            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/reminder" element={<ReminderPage />} />
+            <Route path="/workout" element={<WorkoutPage />} />
+            <Route path="/meal-planning" element={<MealPlanning />} />
+            <Route path="/settings" element={<Settings />} />
+            <Route path="/workout/:id" element={<WorkoutDetailPage />} />
+          </Route>
+        </Route>
+      </Routes>
     </>
   );
 }

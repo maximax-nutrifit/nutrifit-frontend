@@ -1,22 +1,13 @@
-import { useState } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { motion } from "framer-motion";
-import { Search, Clipboard, ChevronDown, X, CheckCircle } from "lucide-react";
+import { Search, Clipboard, X, CheckCircle } from "lucide-react";
+import { generateMealRecommendations } from "../api/mealService";
 
-// Dummy data for different sections
-const categories = {
-  "Recommended Meals": [
-    { id: 1, title: "JRice", kcal: 200, macros: 50, img: "/assets/jollof-rice.png", people: 156 },
-    { id: 2, title: "Fried Rice", kcal: 220, macros: 55, img: "/assets/jollof-rice.png", people: 180 },
-  ],
-  "Vegan": [
-    { id: 4, title: "Vegan Salad", kcal: 150, macros: 40, img: "/assets/jollof-rice.png", people: 120 },
-  ],
-  "High Protein": [
-    { id: 7, title: "Grilled Chicken", kcal: 300, macros: 70, img: "/assets/jollof-rice.png", people: 190 },
-  ],
-  "Low Carb": [
-    { id: 10, title: "Zucchini Noodles", kcal: 130, macros: 30, img: "/assets/jollof-rice.png", people: 90 },
-  ],
+const initialCategories = {
+  "Recommended Meals": [],
+  "Vegan": [],
+  "High Protein": [],
+  "Low Carb": []
 };
 
 export default function MealPlanning() {
@@ -24,13 +15,41 @@ export default function MealPlanning() {
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [modalData, setModalData] = useState(null);
   const [logSuccess, setLogSuccess] = useState(false);
+  const [categories, setCategories] = useState(initialCategories);
+  const [loading, setLoading] = useState(true);
+
+  const formatMacros = (macros) => {
+    if (!macros) return 'Macros not available';
+    if (typeof macros === 'string') return macros;
+    return `P:${macros.protein || 0}g C:${macros.carbohydrates || 0}g F:${macros.fat || 0}g`;
+  };
+
+  const loadRecommendations = useCallback(async () => {
+    setLoading(true);
+    const newCategories = { ...initialCategories };
+    
+    try {
+      for (const category of Object.keys(newCategories)) {
+        newCategories[category] = await generateMealRecommendations(category);
+      }
+      setCategories(newCategories);
+    } catch (error) {
+      console.error("Failed to load recommendations:", error);
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    loadRecommendations();
+  }, [loadRecommendations]);
 
   const filteredMeals = selectedCategory === "All"
     ? Object.values(categories).flat()
     : categories[selectedCategory] || [];
 
   const searchedMeals = filteredMeals.filter(meal =>
-    meal.title.toLowerCase().includes(search.toLowerCase())
+    meal.title?.toLowerCase().includes(search.toLowerCase())
   );
 
   return (
@@ -60,50 +79,91 @@ export default function MealPlanning() {
         </div>
       </div>
 
+      {/* Loading State */}
+      {loading && (
+        <div className="flex justify-center mt-8">
+          <div className="animate-spin rounded-full h-10 w-10 border-t-2 border-b-2 border-orange-500"></div>
+        </div>
+      )}
+
       {/* Meal Sections */}
-      {Object.entries(categories).map(([category, meals]) => (
+      {!loading && Object.entries(categories).map(([category, meals]) => (
         (selectedCategory === "All" || selectedCategory === category) && (
           <div key={category} className="mt-6">
             <h2 className="text-lg font-semibold bg-gray-700 px-3 py-2 rounded-lg">{category}</h2>
             <motion.div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-3">
-              {searchedMeals.filter(meal => meals.includes(meal)).map(meal => (
-                <motion.div key={meal.id} className="bg-gray-800 p-3 rounded-lg relative shadow-lg">
-                  <img src={meal.img} alt={meal.title} className="rounded-lg w-full h-28 object-cover" />
-                  <div className="absolute top-2 right-2 bg-white p-1 rounded-full shadow-md">
-                    <Clipboard className="w-4 h-4 text-gray-600 cursor-pointer" onClick={() => setModalData(meal)} />
-                  </div>
-                  <p className="text-sm font-semibold mt-2">{meal.title}</p>
-                  <p className="text-xs text-gray-400">{meal.kcal} KCAL • {meal.macros} Macros</p>
-                  <button onClick={() => setModalData(meal)} className="mt-2 bg-orange-500 text-xs px-3 py-2 rounded-lg w-full">Log Meal</button>
-                </motion.div>
+              {searchedMeals.filter(meal => meals.includes(meal)).map((meal, index) => (
+                <motion.div 
+  key={`${meal.title}-${index}`} 
+  className="bg-gray-800 p-3 rounded-lg relative shadow-lg"
+  whileHover={{ scale: 1.03 }}
+>
+  <motion.div
+    whileHover={{ scale: 1.03 }}
+    initial={{ opacity: 0 }}
+    animate={{ opacity: 1 }}
+    transition={{ duration: 0.3 }}
+  >
+    <img 
+    src={`/assets/${meal.title?.toLowerCase().replace(/\s+/g, '-')}.png`} 
+    alt={meal.title} 
+    className="rounded-lg w-full h-28 object-cover" 
+    onError={(e) => e.target.src = "/assets/food-placeholder.png"}
+  />
+  </motion.div>
+  <div className="absolute top-2 right-2 bg-white p-1 rounded-full shadow-md">
+    <Clipboard className="w-4 h-4 text-gray-600 cursor-pointer" 
+      onClick={() => setModalData(meal)} 
+    />
+  </div>
+  <p className="text-sm font-semibold mt-2">{meal.title}</p>
+  <p className="text-xs text-gray-400">
+    {meal.kcal} KCAL • {formatMacros(meal.macros)}
+  </p>
+  <button 
+    onClick={() => setModalData(meal)} 
+    className="mt-2 bg-orange-500 text-xs px-3 py-2 rounded-lg w-full"
+  >
+    Log Meal
+  </button>
+</motion.div>
               ))}
             </motion.div>
           </div>
         )
       ))}
 
-      {/* Grocery List Modal */}
+      {/* Modals (same as before) */}
       {modalData && (
         <div className="fixed inset-0 flex items-center justify-center backdrop-blur-sm bg-opacity-50">
           <div className="bg-white text-black p-6 rounded-lg w-80">
             <h2 className="text-lg font-bold">{modalData.title} Grocery List</h2>
             <ul className="mt-2">
-              {modalData.title === "JRice" ? ["Tomatoes", "Onions", "Rice", "Chicken"] : ["Lettuce", "Carrots", "Dressing"].map((item, index) => (
+              {modalData.ingredients?.map((item, index) => (
                 <li key={index} className="text-gray-700">{item}</li>
               ))}
             </ul>
-            <button onClick={() => { setModalData(null); setLogSuccess(true); }} className="mt-4 bg-orange-500 text-white px-4 py-2 rounded-lg w-full">Ok</button>
+            <button 
+              onClick={() => { setModalData(null); setLogSuccess(true); }} 
+              className="mt-4 bg-orange-500 text-white px-4 py-2 rounded-lg w-full"
+            >
+              Ok
+            </button>
           </div>
         </div>
       )}
 
-      {/* Meal Logged Success Modal */}
       {logSuccess && (
         <div className="fixed inset-0 flex items-center justify-center backdrop-blur-sm bg-opacity-50">
           <div className="bg-white text-black p-6 rounded-lg w-80 text-center">
             <CheckCircle className="text-green-500 w-10 h-10 mx-auto" />
-            <p className="mt-4 text-lg font-bold">Your meal has been successfully logged</p>
-            <button onClick={() => setLogSuccess(false)} className="mt-4 bg-orange-500 text-white px-4 py-2 rounded-lg w-full">Ok</button>
+            <p className="mt-4 text-lg font-bold">Meal logged successfully!</p>
+            <button 
+              onClick={() => setLogSuccess(false)} 
+              className="mt-4 bg-orange-500 text-white px-4 py-2 rounded-lg w-full"
+            >
+              Ok
+            </button>
           </div>
         </div>
       )}

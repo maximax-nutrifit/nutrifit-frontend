@@ -7,7 +7,7 @@ const SplashScreen = () => {
 
   useEffect(() => {
     const redirectTimeout = setTimeout(() => {
-      navigate("/login");
+      navigate("/dashboard");
     }, 5000);
 
     return () => clearTimeout(redirectTimeout);

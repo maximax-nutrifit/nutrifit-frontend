@@ -1,14 +1,18 @@
 import { FaBell } from "react-icons/fa";
 
 function Header() {
+  const userData = JSON.parse(localStorage.getItem("userResponseDTO"));
+  console.log(localStorage.getItem("accessToken"))
+  console.log(userData);
+  const userName = userData.name;
   return (
     <div className="flex items-center justify-between bg-gray-900 text-white w-full p-4 max-w-screen mx-auto">
       <div className="flex items-center space-x-3">
         <img src="/assets/avatar.png" alt="Profile" className="w-12 h-12 rounded-full" />
         <div>
-          <h2 className="text-xl font-semibold">John Doe</h2>
+          <h2 className="text-xl font-semibold">{userName}</h2>
           <p className="text-gray-400 text-sm">
-            GOAL: <span className="text-orange-400">"Lose weight 🔥"</span>
+            GOAL: <span className="text-orange-400">{userData.healthGoal} 🔥</span>
           </p>
         </div>
       </div>

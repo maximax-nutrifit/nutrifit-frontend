@@ -88,6 +88,7 @@ export const refToken = async () => {
         alert("Session expired. Please log in again.");
         localStorage.removeItem("accessToken");
         localStorage.removeItem("refreshToken");
+        localStorage.removeItem("userResponseDTO");
         window.location.href = "/login"; // Redirect to login page
         return null;
     }
@@ -97,5 +98,6 @@ export const refToken = async () => {
 export const logout = () => {
     localStorage.removeItem("accessToken");
     localStorage.removeItem("refreshToken");
+    localStorage.removeItem("userResponseDTO");
     window.location.href = "/login"; // Redirect to login page
 };

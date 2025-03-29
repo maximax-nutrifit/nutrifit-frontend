@@ -81,9 +81,10 @@ const SignUp = () => {
     try {
       const data = await handleRegister(registerData);
       if (data) {
-        const { accessToken, refreshToken } = data;
+        const { accessToken, refreshToken, userResponseDTO } = data;
         localStorage.setItem("accessToken", accessToken);
         localStorage.setItem("refreshToken", refreshToken);
+        localStorage.setItem("userResponseDTO", JSON.stringify(userResponseDTO));
 
         setTimeout(() => {
           navigate("/login");

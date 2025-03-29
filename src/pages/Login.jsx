@@ -32,10 +32,11 @@ const Login = () => {
     try {
       const data = await handleLogin(loginData);
       if (data) {
-        const { accessToken, refreshToken } = data;
+        const { accessToken, refreshToken, userResponseDTO } = data;
         localStorage.setItem("accessToken", accessToken);
         localStorage.setItem("refreshToken", refreshToken);
-        setTimeout(() => navigate("/dashboard"), 2000);
+        localStorage.setItem("userResponseDTO", JSON.stringify(userResponseDTO));
+        setTimeout(() => navigate("/"), 2000);
       } else {
         console.log("Login failed. Please check your credentials.");
       }
