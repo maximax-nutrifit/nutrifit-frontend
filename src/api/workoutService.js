@@ -1,7 +1,7 @@
 export const generateWorkoutRecommendations = async () => {
     try {
       const API_KEY = "AIzaSyARJuWtKWtkZC7X5bjDA6WGkrqA6t_-5E0";
-      const prompt = `Generate 6 Nigerian-friendly workouts with:
+      const prompt = `Generate 6 workouts with:
       - Name
       - Duration
       - Calories burned
