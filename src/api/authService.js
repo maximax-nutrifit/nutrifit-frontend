@@ -2,6 +2,10 @@ const BASE_URL = "https://maximax-nutrifit-cgaca4dbfgbuehbe.canadacentral-01.azu
 
 // Login
 export const handleLogin = async (loginData) => {
+    if ("serviceWorker" in navigator) {
+        // register service worker
+        navigator.serviceWorker.register("service-worker.js");
+      }
 try {
 
     // Send a POST request to the server to log in the user

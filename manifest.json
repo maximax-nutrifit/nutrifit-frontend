@@ -1,0 +1,21 @@
+{
+    "name": "NutriFit AI",
+    "short_name": "NutriFit",
+    "start_url": "index.html",
+    "scope": "./",
+    "icons": [
+      {
+        "src": "nutrifit.png",
+        "sizes": "192x192",
+        "type": "image/png"
+      },
+      {
+        "src": "nutrifit.png",
+        "sizes": "512x512",
+        "type": "image/png"
+      }
+    ],
+    "theme_color": "#ffd31d",
+    "background_color": "#333",
+    "display": "standalone"
+  }
