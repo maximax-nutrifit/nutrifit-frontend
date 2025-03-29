@@ -1,4 +1,4 @@
-const BASE_URL = "http://localhost:8080/api/v1/auth";
+const BASE_URL = "https://maximax-nutrifit-cgaca4dbfgbuehbe.canadacentral-01.azurewebsites.net/api/v1/auth";
 
 // Login
 export const handleLogin = async (loginData) => {
