@@ -230,6 +230,16 @@ self.addEventListener('fetch', function(event) {
     // If shouldRespond is still false, check to see if this is a navigation
     // request, and if so, whether the URL matches navigateFallbackWhitelist.
     var navigateFallback = '';
+
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker
+          .register('/service-worker.js')
+          .then(reg => console.log('Service Worker registered!', reg))
+          .catch(err => console.log('Service Worker registration failed:', err));
+      });
+    }
+    
     if (!shouldRespond &&
         navigateFallback &&
         (event.request.mode === 'navigate') &&
