@@ -2,7 +2,7 @@
     "name": "NutriFit AI",
     "short_name": "NutriFit",
     "start_url": "/",
-    "scope": "./",
+    "scope": "/",
     "icons": [
       {
         "src": "nutrifit192x192.png",
