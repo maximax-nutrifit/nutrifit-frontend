@@ -1,17 +1,1 @@
-{
-  "headers": [
-    {
-      "source": "/service-worker.js",
-      "headers": [
-        { "key": "Cache-Control", "value": "no-cache" },
-        { "key": "Service-Worker-Allowed", "value": "/" }
-      ]
-    }
-  ],
-  "rewrites": [
-    { "src": "/service-worker.js", "dest": "/service-worker.js" },
-    { "src": "/manifest.json", "dest": "/manifest.json" },
-    { "src": "/assets/(.*)", "dest": "/assets/$1" },
-    { "src": "/(.*)", "dest": "/" }
-  ]
-}
+{ "rewrites": [{ "src": "/[^.]+", "dest": "/", "status": 200 }] }
