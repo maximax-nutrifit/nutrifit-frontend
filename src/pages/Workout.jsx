@@ -9,11 +9,12 @@ export default function WorkoutDetailPage() {
   const [workouts, setWorkouts] = useState([]);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
+  const userData = JSON.parse(localStorage.getItem('userResponseDTO'));
 
   useEffect(() => {
     const loadWorkouts = async () => {
       try {
-        const generatedWorkouts = await generateWorkoutRecommendations();
+        const generatedWorkouts = await generateWorkoutRecommendations(userData);
         setWorkouts(generatedWorkouts);
       } catch (error) {
         console.error("Failed to load workouts:", error);

@@ -40,6 +40,23 @@ const Dashboard = () => {
   const [loading, setLoading] = useState(true);
   const [failedGenerations, setFailedGenerations] = useState(0);
 
+  const getRandomPlaceholder = (itemType) => {
+    const mealImages = [
+      '/assets/meal1.webp',
+      '/assets/meal2.webp',
+      '/assets/meal3.webp'
+    ];
+    
+    const exerciseImages = [
+      '/assets/exercise1.webp',
+      '/assets/exercise2.webp',
+      '/assets/exercise3.webp'
+    ];
+  
+    const placeholders = itemType === 'meal' ? mealImages : exerciseImages;
+    return placeholders[Math.floor(Math.random() * placeholders.length)];
+  };
+
   const generateItemImage = async (itemName, itemType) => {
     try {
       const buffer = await generateStabilityImage(itemName, itemType);
@@ -47,12 +64,11 @@ const Dashboard = () => {
       return URL.createObjectURL(blob);
     } catch (error) {
       console.error(`Failed to generate image for ${itemName}:`, error);
-      setFailedGenerations(prev => prev + 1);
-      return itemType === 'meal' 
-        ? LOCAL_IMAGES[itemName.toLowerCase()] || '/assets/food-placeholder.webp'
-        : '/assets/exercise-placeholder.png';
-    }
-  };
+      const buffer = getRandomPlaceholder(itemType);
+      const blob = new Blob([buffer], { type: 'image/webp' });
+      return URL.createObjectURL(blob);
+    };
+  }
   
   // Update your useEffect to handle both types
   useEffect(() => {
