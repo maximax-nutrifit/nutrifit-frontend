@@ -29,7 +29,7 @@ export default function MealPlanning() {
   const loadRecommendations = useCallback(async () => {
     setLoading(true);
     const newCategories = { ...initialCategories };
-    
+
     try {
       for (const category of Object.keys(newCategories)) {
         newCategories[category] = await generateMealRecommendations(category, userData);
@@ -96,40 +96,40 @@ export default function MealPlanning() {
             <h2 className="text-lg font-semibold bg-gray-700 px-3 py-2 rounded-lg">{category}</h2>
             <motion.div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-3">
               {searchedMeals.filter(meal => meals.includes(meal)).map((meal, index) => (
-                <motion.div 
-  key={`${meal.title}-${index}`} 
-  className="bg-gray-800 p-3 rounded-lg relative shadow-lg"
-  whileHover={{ scale: 1.03 }}
->
-  <motion.div
-    whileHover={{ scale: 1.03 }}
-    initial={{ opacity: 0 }}
-    animate={{ opacity: 1 }}
-    transition={{ duration: 0.3 }}
-  >
-    <img 
-    src={`/assets/${meal.title?.toLowerCase().replace(/\s+/g, '-')}.png`} 
-    alt={meal.title} 
-    className="rounded-lg w-full h-28 object-cover" 
-    onError={(e) => e.target.src = "/assets/food-placeholder.png"}
-  />
-  </motion.div>
-  <div className="absolute top-2 right-2 bg-white p-1 rounded-full shadow-md">
-    <Clipboard className="w-4 h-4 text-gray-600 cursor-pointer" 
-      onClick={() => setModalData(meal)} 
-    />
-  </div>
-  <p className="text-sm font-semibold mt-2">{meal.title}</p>
-  <p className="text-xs text-gray-400">
-    {meal.kcal} KCAL • {formatMacros(meal.macros)}
-  </p>
-  <button 
-    onClick={() => setModalData(meal)} 
-    className="mt-2 bg-orange-500 text-xs px-3 py-2 rounded-lg w-full"
-  >
-    Log Meal
-  </button>
-</motion.div>
+                <motion.div
+                  key={`${meal.title}-${index}`}
+                  className="bg-gray-800 p-3 rounded-lg relative shadow-lg"
+                  whileHover={{ scale: 1.03 }}
+                >
+                  <motion.div
+                    whileHover={{ scale: 1.03 }}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ duration: 0.3 }}
+                  >
+                    <img
+                      src={`/assets/${meal.title?.toLowerCase().replace(/\s+/g, '-')}.png`}
+                      alt={meal.title}
+                      className="rounded-lg w-full h-28 object-cover"
+                      onError={(e) => e.target.src = "/assets/food-placeholder.png"}
+                    />
+                  </motion.div>
+                  <div className="absolute top-2 right-2 bg-white p-1 rounded-full shadow-md">
+                    <Clipboard className="w-4 h-4 text-gray-600 cursor-pointer"
+                      onClick={() => setModalData(meal)}
+                    />
+                  </div>
+                  <p className="text-sm font-semibold mt-2">{meal.title}</p>
+                  <p className="text-xs text-gray-400">
+                    {meal.kcal} KCAL • {formatMacros(meal.macros)}
+                  </p>
+                  <button
+                    onClick={() => setModalData(meal)}
+                    className="mt-2 bg-orange-500 text-xs px-3 py-2 rounded-lg w-full"
+                  >
+                    Log Meal
+                  </button>
+                </motion.div>
               ))}
             </motion.div>
           </div>
@@ -146,8 +146,8 @@ export default function MealPlanning() {
                 <li key={index} className="text-gray-700">{item}</li>
               ))}
             </ul>
-            <button 
-              onClick={() => { setModalData(null); setLogSuccess(true); }} 
+            <button
+              onClick={() => { setModalData(null); setLogSuccess(true); }}
               className="mt-4 bg-orange-500 text-white px-4 py-2 rounded-lg w-full"
             >
               Ok
@@ -161,8 +161,8 @@ export default function MealPlanning() {
           <div className="bg-white text-black p-6 rounded-lg w-80 text-center">
             <CheckCircle className="text-green-500 w-10 h-10 mx-auto" />
             <p className="mt-4 text-lg font-bold">Meal logged successfully!</p>
-            <button 
-              onClick={() => setLogSuccess(false)} 
+            <button
+              onClick={() => setLogSuccess(false)}
               className="mt-4 bg-orange-500 text-white px-4 py-2 rounded-lg w-full"
             >
               Ok
