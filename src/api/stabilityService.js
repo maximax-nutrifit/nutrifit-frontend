@@ -1,6 +1,6 @@
 // api/stabilityService.js
 export const generateStabilityImage = async (prompt, type = 'meal') => {
-    const STABILITY_API_KEY = "sk-wQH20xMQ5eUun1uOMgYVdFUfhds5fBvsk6FN8XrTKAufMdck"; // Never hardcode in production!
+    const STABILITY_API_KEY = "sk-cugTb8Bh44KgguFFAm4kntb4OrqiApp8Seh7Z4rtJydLYRTv"; // Never hardcode in production!
     
     try {
       if (!prompt || prompt.length > 200) {
