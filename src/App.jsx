@@ -6,7 +6,6 @@ import {
   useLocation,
 } from "react-router-dom";
 import { AnimatePresence } from "framer-motion";
-import Onboarding from "./pages/Onboarding";
 import Login from "./pages/Login";
 import SignUp from "./pages/SignUp";
 import Dashboard from "./pages/Dashboard";
@@ -39,7 +38,7 @@ function Layout() {
     <>
       {/* Routes without auth check */}
       <Routes location={location} key={location.pathname}>
-        <Route path="/" element={<Onboarding />} />
+        <Route path="/" element={<Login />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<SignUp />} />
         

@@ -9,11 +9,12 @@ export default function WorkoutDetailPage() {
   const [workouts, setWorkouts] = useState([]);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
+  const userData = JSON.parse(localStorage.getItem('userResponseDTO'));
 
   useEffect(() => {
     const loadWorkouts = async () => {
       try {
-        const generatedWorkouts = await generateWorkoutRecommendations();
+        const generatedWorkouts = await generateWorkoutRecommendations(userData);
         setWorkouts(generatedWorkouts);
       } catch (error) {
         console.error("Failed to load workouts:", error);
@@ -78,7 +79,7 @@ export default function WorkoutDetailPage() {
               </p>
               <button
                 className="mt-2 bg-orange-500 text-xs px-3 py-1 rounded-lg w-full"
-                onClick={() => navigate(`/workout/${workout.title?.replace(/\s+/g, '-')}`)}
+                onClick={() => navigate(`/workout/${workout.id}`)}
               >
                 Start Workout
               </button>

@@ -1,4 +1,4 @@
-export const generateMealRecommendations = async (category) => {
+export const generateMealRecommendations = async (category, userData) => {
     try {
       const API_KEY = "AIzaSyARJuWtKWtkZC7X5bjDA6WGkrqA6t_-5E0";
       const prompt = `Generate 3 Nigerian ${category} meals with:
@@ -6,6 +6,11 @@ export const generateMealRecommendations = async (category) => {
       - Calories
       - Macros (as string in format "P:xxg C:xxg F:xxg")
       - Main ingredients
+      for:
+      Name: ${userData.name}
+      BMI: ${userData.bmi}
+      Goal: ${userData.healthGoal}
+      Diet: ${userData.dietaryPreferences}
       Format as JSON array: 
       [{"title":"...","kcal":...,"macros":"...","ingredients":[...]}]`;
   

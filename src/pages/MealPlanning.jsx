@@ -18,6 +18,8 @@ export default function MealPlanning() {
   const [categories, setCategories] = useState(initialCategories);
   const [loading, setLoading] = useState(true);
 
+  const userData = JSON.parse(localStorage.getItem('userResponseDTO'));
+
   const formatMacros = (macros) => {
     if (!macros) return 'Macros not available';
     if (typeof macros === 'string') return macros;
@@ -30,7 +32,7 @@ export default function MealPlanning() {
 
     try {
       for (const category of Object.keys(newCategories)) {
-        newCategories[category] = await generateMealRecommendations(category);
+        newCategories[category] = await generateMealRecommendations(category, userData);
       }
       setCategories(newCategories);
     } catch (error) {
@@ -55,7 +57,7 @@ export default function MealPlanning() {
   return (
     <div className="min-h-screen mb-18 bg-gradient-to-b from-gray-800 to-gray-900 text-white p-4">
       {/* Search & Filter */}
-      <div className="flex flex-col sm:flex-row items-center gap-2 mt-4 bg-gray-700 p-3 rounded-lg">
+      <div className="flex flex-col sm:flex-row items-center gap-3 mt-4 bg-gray-700 p-3 rounded-lg w-full">
         <select
           className="bg-gray-800 px-3 py-2 rounded-lg text-white w-full sm:w-auto"
           value={selectedCategory}
@@ -66,18 +68,19 @@ export default function MealPlanning() {
             <option key={category} value={category}>{category}</option>
           ))}
         </select>
-        <div className="flex items-center w-full sm:w-auto bg-gray-800 p-2 rounded-lg">
-          <Search className="w-4 h-4 text-gray-400" />
+        <div className="flex items-center bg-gray-800 p-2 rounded-lg w-full">
+          <Search className="w-5 h-5 text-gray-400" />
           <input
             type="text"
             placeholder="Search for meals"
-            className="bg-transparent flex-1 outline-none px-2 w-full"
+            className="bg-transparent flex-1 outline-none px-2 text-white placeholder-gray-400"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
           />
-          {search && <X className="w-4 h-4 cursor-pointer" onClick={() => setSearch("")} />}
+          {search && <X className="w-5 h-5 cursor-pointer text-gray-400" onClick={() => setSearch("")} />}
         </div>
       </div>
+
 
       {/* Loading State */}
       {loading && (

@@ -1,4 +1,4 @@
-export const generateWorkoutRecommendations = async () => {
+export const generateWorkoutRecommendations = async (userData) => {
     try {
       const API_KEY = "AIzaSyARJuWtKWtkZC7X5bjDA6WGkrqA6t_-5E0";
       const prompt = `Generate 6 workouts with:
@@ -6,6 +6,11 @@ export const generateWorkoutRecommendations = async () => {
       - Duration
       - Calories burned
       - Equipment needed
+      for:
+      Name: ${userData.name}
+      BMI: ${userData.bmi}
+      Goal: ${userData.healthGoal}
+      Diet: ${userData.dietaryPreferences}
       Format as JSON array like:
       [{"title":"...","duration":"...","calories":...,"equipment":[...]}]`;
   

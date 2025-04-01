@@ -54,7 +54,6 @@ const ProfileSettings = () => {
         <h3 className="text-md font-semibold text-gray-400 mb-2">Preferences</h3>
         <div className="bg-gray-800 p-3 rounded-lg">
           <ToggleItem icon={<FaBell />} text="Push Notifications" />
-          <MenuItem icon={<FaLock />} text="Change Password" />
           <motion.div
             whileTap={{ scale: 0.95 }}
             className="flex justify-between items-center p-3 rounded-lg hover:bg-gray-700 transition text-red-500"
