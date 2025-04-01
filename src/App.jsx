@@ -39,6 +39,7 @@ function Layout() {
       {/* Routes without auth check */}
       <Routes location={location} key={location.pathname}>
         <Route path="/" element={<Login />} />
+        <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<SignUp />} />
         
         {/* All protected routes wrapped in AuthenticatedLayout */}
